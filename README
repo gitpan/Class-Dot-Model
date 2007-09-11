@@ -25,10 +25,27 @@ SYNOPSIS
          Primary_Key 'id';
          Belongs_To  'cat'
              => 'My::Model::Cat';
+
+    Then you would have to initialize the database configuration for
+    org.mydomain.myapp:
+
+         use Config::PlConfig;
+         my $DOMAIN   = 'org.mydomain.myapp';
  
-         package main;
+         my $dbconfig = {
+             driver      => 'mysql',
+             database    => 'myappdb',
+             hostname    => 'localhost',
+             username    => 'me',
+             password    => 'secret',
+         };
  
-         my $model = My::Model->new();
+         my $plconfig = Config::PlConfig->new({
+             domain  => $DOMAIN,
+         });
+         my $config = $plconfig->load();
+         $config->{database} = $dbconfig;
+         $plconfig->save();
 
 DESCRIPTION
     A module for making DBIx::Class even simpler.

@@ -8,7 +8,7 @@ package Class::Dot::Model::Table;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.1');
+use version; our $VERSION = qv('0.1.2');
 use 5.006_001;
 
 use Carp                    qw(croak);
@@ -16,7 +16,7 @@ use English                 qw( -no_match_vars );
 use Params::Util            qw(_ARRAY);
 use Class::Dot::Model::Util qw(
     push_base_class run_as_call_class
-    install_coderef
+    install_coderef FQDN
 );
 
 my $BASE_CLASS = 'DBIx::Class';
@@ -34,6 +34,8 @@ sub requires {
     return @requires;
 }
 
+my %RELATIONSHIPS_FOR;
+
 sub import {
     my $class     = shift;
     my $call_class = caller 0;
@@ -50,6 +52,7 @@ sub import {
         Table 
         Columns
         Primary_Key
+        RELATIONSHIPS
     );
     
     my %SUBROUTINES  = (
@@ -57,19 +60,32 @@ sub import {
             return $call_class->table(@_);
         },
         Columns         => sub {
-            return $call_class->add_columns(@_);
+            my @columns = @_;
+            $call_class->add_columns(@columns);
+            no strict 'refs'; ## no critic;
+            *{ FQDN($call_class, 'COLUMNS') } = sub {
+                return wantarray ? @columns : \@columns;
+            };
         },
         Primary_Key     => sub {
             return $call_class->set_primary_key(@_);
         },
         Has_Many        => sub {
-            return $call_class->has_many(@_);
+            $call_class->has_many(@_);
+            $RELATIONSHIPS_FOR{$call_class}{$_[0]} = 1;
+            return;
         },
         Belongs_To      => sub {
-            return $call_class->belongs_to(@_);
+            $call_class->belongs_to(@_);
+            $RELATIONSHIPS_FOR{$call_class}{$_[0]} = 1;
         },
         Many_To_Many    => sub {
-            return $call_class->many_to_many(@_);
+            $call_class->many_to_many(@_);
+            $RELATIONSHIPS_FOR{$call_class}{$_[0]} = 1;
+            return;
+        },
+        RELATIONSHIPS   => sub {
+            return $RELATIONSHIPS_FOR{$call_class};
         },
     );
 

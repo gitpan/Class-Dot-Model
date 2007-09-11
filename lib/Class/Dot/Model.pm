@@ -8,7 +8,7 @@ package Class::Dot::Model;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.1');
+use version; our $VERSION = qv('0.1.2');
 use 5.006_001;
 
 use Carp                    qw(croak);
@@ -52,6 +52,8 @@ sub requires {
     return $BASE_CLASS;
 }
 
+my @MODULES_THAT_IMPORTS_US;
+
 sub import {
     my $class     = shift;
     my $call_class = caller 0;
@@ -75,7 +77,21 @@ sub import {
 
     _install_constructor($call_class, $dsnstring, $dbconfig);
 
+    push @MODULES_THAT_IMPORTS_US, $call_class;
+
     return;
+}
+
+# Install a sighandler that walks through all modules that imports
+# us + inherits from DBIx::Class and then disconnects them.
+CHECK {
+    $SIG{INT} = sub {
+        for my $module (@MODULES_THAT_IMPORTS_US) {
+            if ($module->isa($BASE_CLASS)) {
+                $module->storage->disconnect();
+            }
+        }
+    }
 }
 
 sub _load_dbconfig {
@@ -143,8 +159,6 @@ sub _create_dsn_with_config {
     my $dsn = sprintf $dsn_format,
         map { $dsn_params{$_} } sort keys %dsn_params;
 
-    warn ">>> DSN: $dsn\n";
-
     return $dsn;
 }
 
@@ -186,10 +200,26 @@ This document describes Class::Dot::Model version v%%VERSION%%
     Belongs_To  'cat'
         => 'My::Model::Cat';
 
-    package main;
+Then you would have to initialize the database configuration for
+org.mydomain.myapp:
 
-    my $model = My::Model->new();
-    
+    use Config::PlConfig;
+    my $DOMAIN   = 'org.mydomain.myapp';
+
+    my $dbconfig = {
+        driver      => 'mysql',
+        database    => 'myappdb',
+        hostname    => 'localhost',
+        username    => 'me',
+        password    => 'secret',
+    };
+
+    my $plconfig = Config::PlConfig->new({
+        domain  => $DOMAIN,
+    });
+    my $config = $plconfig->load();
+    $config->{database} = $dbconfig;
+    $plconfig->save();
 
 = DESCRIPTION
 

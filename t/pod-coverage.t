@@ -2,6 +2,12 @@
 
 use Test::More;
 
+BEGIN {
+   require Class::Dot::Model;
+   *Class::Dot::Model::CHECK = '';
+}
+   
+
 if ($ENV{TEST_COVERAGE}) {
     plan( skip_all => 'Disabled when testing coverage.' );
 }

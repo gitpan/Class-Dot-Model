@@ -8,7 +8,7 @@ package Class::Dot::Model::Util;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.1');
+use version; our $VERSION = qv('0.1.2');
 use 5.006_001;
 
 use Carp                qw(croak);

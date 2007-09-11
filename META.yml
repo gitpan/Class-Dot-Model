@@ -1,6 +1,6 @@
 ---
 name: Class-Dot-Model
-version: 0.1.1
+version: 0.1.2
 author:
   - 'Ask Solem <ASKSH@cpan.org>'
 abstract: Simple way of defining models for DBIx::Class.
@@ -24,16 +24,16 @@ dynamic_config: 0
 provides:
   Class::Dot::Model:
     file: lib/Class/Dot/Model.pm
-    version: 0.1.1
+    version: 0.1.2
   Class::Dot::Model::Preload:
     file: lib/Class/Dot/Model/Preload.pm
-    version: 0.1.1
+    version: 0.1.2
   Class::Dot::Model::Table:
     file: lib/Class/Dot/Model/Table.pm
-    version: 0.1.1
+    version: 0.1.2
   Class::Dot::Model::Util:
     file: lib/Class/Dot/Model/Util.pm
-    version: 0.1.1
+    version: 0.1.2
 generated_by: Module::Build version 0.2808
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
