@@ -1,14 +1,14 @@
-# $Id$
+# $Id: Preload.pm 4 2007-09-13 10:16:35Z asksol $
 # $Source$
-# $Author$
-# $HeadURL$
-# $Revision$
-# $Date$
+# $Author: asksol $
+# $HeadURL: https://class-dot-model.googlecode.com/svn/trunk/lib/Class/Dot/Model/Preload.pm $
+# $Revision: 4 $
+# $Date: 2007-09-13 12:16:35 +0200 (Thu, 13 Sep 2007) $
 package Class::Dot::Model::Preload;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.2');
+use version; our $VERSION = qv('0.1.3');
 use 5.006_001;
 
 use Class::Dot;
@@ -142,6 +142,7 @@ POSSIBILITY OF SUCH DAMAGES.
 =end wikidoc
 
 
+=for stopwords expandtab shiftround
 # Local Variables:
 #   mode: cperl
 #   cperl-indent-level: 4

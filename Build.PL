@@ -1,9 +1,9 @@
-# $Id: Build.PL,v 1.5 2007/07/13 00:00:11 ask Exp $
+# $Id: Build.PL 4 2007-09-13 10:16:35Z asksol $
 # $Source: /opt/CVS/Getopt-LL/Build.PL,v $
-# $Author: ask $
-# $HeadURL$
-# $Revision: 1.5 $
-# $Date: 2007/07/13 00:00:11 $
+# $Author: asksol $
+# $HeadURL: https://class-dot-model.googlecode.com/svn/trunk/Build.PL $
+# $Revision: 4 $
+# $Date: 2007-09-13 12:16:35 +0200 (Thu, 13 Sep 2007) $
 use strict;
 use warnings;
 
@@ -26,7 +26,7 @@ sub NO  { 0 };
 $ENV{DEVEL_COVER_OPTIONS} = '-ignore,blib/Class/InsideOut/Policy/Modwheel.pm';
 my $builder = Module::Build::Class::Dot::Model->new(
     module_name          => 'Class::Dot::Model',
-    dist_version        => '0.1.2',
+    dist_version        => '0.1.3',
     license              => 'perl',
     dist_author          => 'Ask Solem <ASKSH@cpan.org>',
     all_from             => 'lib/Class/Dot/Model.pm',

@@ -209,6 +209,7 @@ POSSIBILITY OF SUCH DAMAGES.
 
 
 
+=for stopwords expandtab shiftround
 # Local Variables:
 #   mode: cperl
 #   cperl-indent-level: 4

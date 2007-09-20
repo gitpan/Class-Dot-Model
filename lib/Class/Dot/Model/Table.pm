@@ -1,14 +1,14 @@
-# $Id$
+# $Id: Table.pm 4 2007-09-13 10:16:35Z asksol $
 # $Source$
-# $Author$
-# $HeadURL$
-# $Revision$
-# $Date$
+# $Author: asksol $
+# $HeadURL: https://class-dot-model.googlecode.com/svn/trunk/lib/Class/Dot/Model/Table.pm $
+# $Revision: 4 $
+# $Date: 2007-09-13 12:16:35 +0200 (Thu, 13 Sep 2007) $
 package Class::Dot::Model::Table;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.2');
+use version; our $VERSION = qv('0.1.3');
 use 5.006_001;
 
 use Carp                    qw(croak);
@@ -84,6 +84,10 @@ sub import {
             $RELATIONSHIPS_FOR{$call_class}{$_[0]} = 1;
             return;
         },
+        Has_One         => sub {
+            $call_class->has_one(@_);
+            $RELATIONSHIPS_FOR{$call_class}{$_[0]} = 1;
+        },
         RELATIONSHIPS   => sub {
             return $RELATIONSHIPS_FOR{$call_class};
         },
@@ -96,6 +100,7 @@ sub import {
         ':belongs_to'   => [ @SUBS_TO_EXPORT,             'Belongs_To'  ],
         ':child'        => [ @SUBS_TO_EXPORT,                           ],
         ':many_to_many' => [ @SUBS_TO_EXPORT, 'Many_To_Many',           ],
+        ':has_one'      => [ @SUBS_TO_EXPORT, 'Has_One',                ],
     );
 
     for my $arg (@_) {
@@ -319,6 +324,7 @@ POSSIBILITY OF SUCH DAMAGES.
 =end wikidoc
 
 
+=for stopwords expandtab shiftround
 # Local Variables:
 #   mode: cperl
 #   cperl-indent-level: 4

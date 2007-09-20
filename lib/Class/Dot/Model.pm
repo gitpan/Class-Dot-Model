@@ -1,14 +1,14 @@
-# $Id$
+# $Id: Model.pm 4 2007-09-13 10:16:35Z asksol $
 # $Source$
-# $Author$
-# $HeadURL$
-# $Revision$
-# $Date$
+# $Author: asksol $
+# $HeadURL: https://class-dot-model.googlecode.com/svn/trunk/lib/Class/Dot/Model.pm $
+# $Revision: 4 $
+# $Date: 2007-09-13 12:16:35 +0200 (Thu, 13 Sep 2007) $
 package Class::Dot::Model;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.2');
+use version; our $VERSION = qv('0.1.3');
 use 5.006_001;
 
 use Carp                    qw(croak);
@@ -55,11 +55,11 @@ sub requires {
 my @MODULES_THAT_IMPORTS_US;
 
 sub import {
-    my $class     = shift;
+    my $class      = shift;
     my $call_class = caller 0;
     my %argv;
    
-    if (scalar @_ > 1) {
+    if (scalar  @_ > 1) {
         %argv = @_;
     }
 
@@ -84,7 +84,7 @@ sub import {
 
 # Install a sighandler that walks through all modules that imports
 # us + inherits from DBIx::Class and then disconnects them.
-CHECK {
+BEGIN {
     $SIG{INT} = sub {
         for my $module (@MODULES_THAT_IMPORTS_US) {
             if ($module->isa($BASE_CLASS)) {
@@ -337,6 +337,7 @@ POSSIBILITY OF SUCH DAMAGES.
 =end wikidoc
 
 
+=for stopwords expandtab shiftround
 # Local Variables:
 #   mode: cperl
 #   cperl-indent-level: 4

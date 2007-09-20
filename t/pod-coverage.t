@@ -2,10 +2,10 @@
 
 use Test::More;
 
-BEGIN {
-   require Class::Dot::Model;
-   *Class::Dot::Model::CHECK = '';
-}
+#BEGIN {
+#   require Class::Dot::Model;
+#   *Class::Dot::Model::CHECK = '';
+#}
    
 
 if ($ENV{TEST_COVERAGE}) {
